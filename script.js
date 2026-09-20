@@ -899,3 +899,25 @@ textarea {
     bottom: 16px;
   }
 }
+
+/* Keep WhatsApp/phone links synchronized from one config source. */
+(function(){
+  const applyContactConfig = () => {
+    const cfg = window.AAC_CONFIG;
+    if (!cfg) return;
+    document.querySelectorAll('a[href*="wa.me/"]').forEach(a => {
+      try {
+        const url = new URL(a.href);
+        url.pathname = '/' + cfg.whatsapp;
+        a.href = url.toString();
+      } catch (_) {}
+    });
+    document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+      a.href = 'tel:+' + cfg.whatsapp;
+      const text = a.textContent || '';
+      if (/\+?\d[\d\s-]{8,}/.test(text)) a.textContent = text.replace(/\+?\d[\d\s-]{8,}/, cfg.phoneDisplay);
+    });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyContactConfig);
+  else applyContactConfig();
+})();
