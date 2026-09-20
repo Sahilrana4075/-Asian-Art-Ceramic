@@ -1,3 +1,9 @@
+/* Asian Art Ceramic centralized business configuration */
+window.AAC_CONFIG = Object.freeze({
+  whatsapp: "917833882248",
+  phoneDisplay: "+91 78338 82248"
+});
+
 * {
   box-sizing: border-box;
 }
